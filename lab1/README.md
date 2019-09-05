@@ -3,6 +3,8 @@
 
 ## Running
 
+The source file is `src/main/kotlin/lab1/App.kt`.
+
 To compile and run the project, run:
 ```
 ./gradlew run --args="n"
