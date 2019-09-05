@@ -17,9 +17,9 @@ fun <T> generate(k: Int, arr: Array<T>) {
         generate(k-1, arr)
         for(i in 0 until k-1) {
             if(k.isEven()) {
-                arr[i] = arr[k-1].also { arr[k-1] = arr[i]}
+                arr[i] = arr[k-1].also { arr[k-1] = arr[i]} // swap arr[i] and arr[k-1]
             } else {
-                arr[0] = arr[k-1].also { arr[k-1] = arr[0]}
+                arr[0] = arr[k-1].also { arr[k-1] = arr[0]} // swap arr[0] and arr[k-1]
             }
             generate(k-1, arr)
         }
@@ -29,6 +29,25 @@ fun <T> generate(k: Int, arr: Array<T>) {
 
 fun main(args: Array<String>) {
     //println(args[0])
-    val endNum : Int = args[0].toInt();
-    println("Done in " + measureNanoTime { generate(endNum, (1..endNum).toList().toTypedArray()) } + " ns")
+    if(args.size == 1) {
+        val endNum : Int = args[0].toInt();
+        println("Done in " + measureNanoTime { generate(endNum, (1..endNum).toList().toTypedArray()) } + " ns")
+    } else if(args.size == 2) {
+        val endNum : Int = args[0].toInt();
+        val timesToRun : Int = args[1].toInt();
+        val times : MutableList<Long> = mutableListOf<Long>()
+        for(n in 1..timesToRun) {
+            println("Run $n");
+            times.add(measureNanoTime { generate(endNum, (1..endNum).toList().toTypedArray()) })
+        }
+        println("Times:")
+        for(t in times) {
+            println("$t ns");
+        }
+        println("Average time for $timesToRun runs of permutations 1 to $endNum: " + times.average() + " ns")
+        println("Average time for last " + (timesToRun - 1) + " runs: " + times.subList(1,timesToRun-1).average() + " ns")
+    } else {
+        println("Requires at least 1 argument")
+    }
+
 }
