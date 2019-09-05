@@ -4,7 +4,7 @@
 ## Running
 
 To compile and run the project, run:
-```sh
+```
 ./gradlew run --args="n"
 ```
 
@@ -12,7 +12,7 @@ Where `n` is the input integer. The program prints combinations of integers 1 to
 
 Example:
 
-```powershell
+```
 PS C:\Users\floogulinc\Documents\Code\Git Repositories\csci3501\lab1> .\gradlew run --args="3"
 
 > Task :run
@@ -29,13 +29,13 @@ BUILD SUCCESSFUL in 1s
 ```
 
 You can also have it run the permutations multiple times and calculate the average runtime:
-```sh
+```
 ./gradlew run --args="n t"
 ```
 Where `n` is the input integer and `t` is the number of times to run the program.
 
 Example:
-```powershell
+```
 PS C:\Users\floogulinc\Documents\Code\Git Repositories\csci3501\lab1> .\gradlew run --args="2 3"
 
 > Task :run
