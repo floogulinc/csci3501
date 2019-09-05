@@ -12,7 +12,7 @@ Where `n` is the input integer. The program prints combinations of integers 1 to
 
 Example:
 
-```ps
+```powershell
 PS C:\Users\floogulinc\Documents\Code\Git Repositories\csci3501\lab1> .\gradlew run --args="3"
 
 > Task :run
@@ -35,7 +35,7 @@ You can also have it run the permutations multiple times and calculate the avera
 Where `n` is the input integer and `t` is the number of times to run the program.
 
 Example:
-```ps
+```powershell
 PS C:\Users\floogulinc\Documents\Code\Git Repositories\csci3501\lab1> .\gradlew run --args="2 3"
 
 > Task :run
