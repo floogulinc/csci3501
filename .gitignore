@@ -381,3 +381,6 @@ gradle-app.setting
 **/build/
 
 # End of https://www.gitignore.io/api/c,vim,c++,java,linux,emacs,kotlin,windows,clojure,sublimetext,visualstudiocode,gradle,intellij
+
+## I don't want any Intellij stuff
+.idea/
