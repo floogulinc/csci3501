@@ -77,7 +77,7 @@ public class App {
 
         int numRepeat = 5;
 
-        List<Sorter> sorters = List.of(new JavaTimSort(), new QuickSort(), new RandomizedQS(), new MedianQS(20), new InsertionQS(20));
+        List<Sorter> sorters = List.of(new JavaTimSort(), new QuickSort(), new RandomizedQS(), new MedianQS(20), new InsertionQS(6));
 
         System.out.println("Testing on 10,000 random ints 1-1,000,000");
         //List<Long> asdasd = testSorts(sorters, getRandomTestIntArray(1, 1000000, 10000, rand));
