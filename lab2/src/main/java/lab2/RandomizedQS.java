@@ -1,14 +1,20 @@
 package lab2;
+
+import java.util.Random;
+
 /**
  * Quicksort implementation from CSCI 2101 work, refactored to better match the textbook pseudocode.
+ * Modified to use random pivot
  *
  */
-public class QuickSort implements Sorter {
+public class RandomizedQS implements Sorter {
 
     @Override
     public <T extends Comparable<T>> void sort(T[] arr) {
         quicksort(arr);
     }
+
+    private Random rand = new Random();    
 
     /**
      * The method sorts an array using quicksort sort
@@ -19,7 +25,7 @@ public class QuickSort implements Sorter {
      * @param arr
      *            - the array to be sorted
      */
-    public static <T extends Comparable<T>> void quicksort(T[] arr) {
+    public <T extends Comparable<T>> void quicksort(T[] arr) {
         if (arr == null || arr.length <= 1) return;
         quicksort(arr, 0, arr.length - 1);
     }
@@ -38,22 +44,23 @@ public class QuickSort implements Sorter {
      * @param end
      *            - index of the last element of the portion to sort
      */
-    private static <T extends Comparable<T>> void quicksort(T[] arr, int begin, int end) {
+    private <T extends Comparable<T>> void quicksort(T[] arr, int begin, int end) {
         if (begin > end) return;
         int q = partition(arr, begin, end);
         quicksort(arr, begin, q - 1);
         quicksort(arr, q + 1, end);
     }
 
-    private static <T extends Comparable<T>> int partition(T[] arr, int begin, int end) {
-        T pivot = arr[end];
-        int i = begin - 1;
-        for (int j = begin; j < end; j++) {
+    private <T extends Comparable<T>> int partition(T[] arr, int p, int r) {
+        swap(arr, r, rand.nextInt((r-p)+1)+p);
+        T pivot = arr[r];
+        int i = p - 1;
+        for (int j = p; j < r; j++) {
             if (arr[j].compareTo(pivot) <= 0) {
                 swap(arr, ++i, j);
             }
         }
-        swap(arr, i + 1, end);
+        swap(arr, i + 1, r);
         return i + 1;
     }
 

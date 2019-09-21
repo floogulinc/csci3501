@@ -3,6 +3,26 @@
  */
 package lab2;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.DoubleSummaryStatistics;
+import java.util.IntSummaryStatistics;
+import java.util.List;
+import java.util.LongSummaryStatistics;
+import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
+import java.util.stream.Stream;
+
+import com.google.common.base.Functions;
+
+import net.steppschuh.markdowngenerator.rule.HorizontalRule;
+import net.steppschuh.markdowngenerator.table.Table;
+import net.steppschuh.markdowngenerator.table.TableRow;
+import net.steppschuh.markdowngenerator.text.emphasis.BoldText;
+
 /**
  * CSCI 3501 Lab 2
  *
@@ -10,16 +30,174 @@ package lab2;
  *
  */
 public class App {
+
     public String getGreeting() {
         return "Hello world.";
     }
 
-    public static void main(String[] args) {
-
-        System.out.println(new App().getGreeting());
+    public static class JavaTimSort implements Sorter {
+        public <T extends Comparable<T>> void sort(T[] arr) {
+            Arrays.sort(arr);
+        }
     }
 
-    public static <T extends Comparable> boolean isSorted(T[] data) {
+    public interface ArrayGenerator<T> {
+        public T[] generateArray();
+    }
+
+    public static void main(String[] args) {
+
+        if (args.length == 0) {
+            regularTests();
+        } else if (args[0].equals("testmedian")) {
+            int runs = 10;
+            IntSummaryStatistics summary = IntStream.range(0, runs).mapToObj(x -> testMedian()).collect(Collectors.summarizingInt(x -> x));
+            System.out.println("----------------------------------------");
+            System.out.println("STATS FOR BEST INDEX FOR " + runs +  " RUNS:");
+            System.out.println("Average: " + summary.getAverage()); 
+            System.out.println("Min: " + summary.getMin()); 
+            System.out.println("Max: " + summary.getMax()); 
+            System.out.println("Count: " + summary.getCount()); 
+        } else if (args[0].equals("testinsert")) {
+            int runs = 100;
+            IntSummaryStatistics summary = IntStream.range(0, runs).mapToObj(x -> testInsert()).collect(Collectors.summarizingInt(x -> x));
+            System.out.println("----------------------------------------");
+            System.out.println("STATS FOR BEST INDEX FOR " + runs +  " RUNS:");
+            System.out.println("Average: " + summary.getAverage()); 
+            System.out.println("Min: " + summary.getMin()); 
+            System.out.println("Max: " + summary.getMax()); 
+            System.out.println("Count: " + summary.getCount()); 
+        }
+
+    }
+
+    public static void regularTests() {
+
+        Random rand = new Random();
+
+        int numRepeat = 5;
+
+        List<Sorter> sorters = List.of(new JavaTimSort(), new QuickSort(), new RandomizedQS(), new MedianQS(20), new InsertionQS(20));
+
+        System.out.println("Testing on 10,000 random ints 1-1,000,000");
+        //List<Long> asdasd = testSorts(sorters, getRandomTestIntArray(1, 1000000, 10000, rand));
+        List<List<Long>> allrandomresults = repeatTestSorts(sorters,() -> getRandomTestIntArray(1, 1000000, 10000, rand), numRepeat);
+        System.out.println(makeMarkdownTable(allrandomresults, sorters));
+        System.out.println(new HorizontalRule(30));
+
+        System.out.println("Testing on the range 1-10000");
+        List<List<Long>> allrangeresults =  repeatTestSorts(sorters,() -> IntStream.rangeClosed(1, 10000).mapToObj(TestInteger::new).toArray(TestInteger[]::new), numRepeat);
+        System.out.println(makeMarkdownTable(allrangeresults, sorters));
+        System.out.println(new HorizontalRule(30));
+
+        System.out.println("Testing on 10 sequences of ranges of 1000");
+        List<List<Long>> tenrangeresults =  repeatTestSorts(sorters,() -> rand.ints().limit(10).flatMap(r -> IntStream.range(r, r + 1000)).mapToObj(TestInteger::new).toArray(TestInteger[]::new), numRepeat);
+        System.out.println(makeMarkdownTable(tenrangeresults, sorters));
+        System.out.println(new HorizontalRule(30));
+
+        System.out.println("Testing on 100 sequences of ranges 100");
+        List<List<Long>> hundredrangeresults =  repeatTestSorts(sorters,() -> rand.ints().limit(100).flatMap(r -> IntStream.range(r, r + 100)).mapToObj(TestInteger::new).toArray(TestInteger[]::new), numRepeat);
+        System.out.println(makeMarkdownTable(hundredrangeresults, sorters));
+        System.out.println(new HorizontalRule(30));
+    }
+
+    public static int testMedian() {
+        Random rand = new Random();
+        int start = 1, end = 100;
+        List<List<Long>> results = repeatTestSorts(IntStream.rangeClosed(start, end).mapToObj(x -> new MedianQS(x)).collect(Collectors.toList()), () -> getRandomTestIntArray(1, 1000000, 10000, rand), 10);
+        List<Double> avg = getAverages(results);
+        DoubleSummaryStatistics summary = avg.stream().collect(Collectors.summarizingDouble(x->x));     
+        System.out.println("Average: " + summary.getAverage()); 
+        System.out.println("Min: " + summary.getMin() + " at: " + (avg.indexOf(summary.getMin()) + start)); 
+        System.out.println("Max: " + summary.getMax() + " at: " + (avg.indexOf(summary.getMax()) + start)); 
+        System.out.println("Count: " + summary.getCount()); 
+        return (avg.indexOf(summary.getMin()) + start);
+        // this is pretty unreadable
+        //System.out.println(makeMarkdownTable(results, IntStream.rangeClosed(3, 100).mapToObj(x -> new MedianQS(x)).collect(Collectors.toList())));
+    }
+
+    public static int testInsert() {
+        Random rand = new Random();
+        int start = 1, end = 100;
+        List<List<Long>> results = repeatTestSorts(IntStream.rangeClosed(start, end).mapToObj(x -> new InsertionQS(x)).collect(Collectors.toList()), () -> getRandomTestIntArray(1, 1000000, 10000, rand), 10);
+        List<Double> avg = getAverages(results);
+        DoubleSummaryStatistics summary = avg.stream().collect(Collectors.summarizingDouble(x->x));     
+        System.out.println("Average: " + summary.getAverage()); 
+        System.out.println("Min: " + summary.getMin() + " at: " + (avg.indexOf(summary.getMin()) + start)); 
+        System.out.println("Max: " + summary.getMax() + " at: " + (avg.indexOf(summary.getMax()) + start)); 
+        System.out.println("Count: " + summary.getCount()); 
+        return (avg.indexOf(summary.getMin()) + start);
+        // this is pretty unreadable
+        //System.out.println(makeMarkdownTable(results, IntStream.rangeClosed(3, 100).mapToObj(x -> new MedianQS(x)).collect(Collectors.toList())));
+    }
+
+    public static Table makeMarkdownTable(List<List<Long>> sortComparisons, List<Sorter> sorters) {
+        Table.Builder tableBuilder = new Table.Builder().addRow(new TableRow<String>(sorters.stream().map((s) -> s.getClass().getSimpleName()).collect(Collectors.toList())));
+
+        sortComparisons.forEach(sc -> tableBuilder.addRow(new TableRow<Long>(sc)));
+
+        tableBuilder.addRow(new TableRow<String>(Collections.nCopies(sorters.size(), " ")));
+        List<String> avgLine = new ArrayList<String>(Collections.nCopies(sorters.size(), " "));
+        avgLine.set(((sorters.size()-1)/2), " **Average** ");
+
+        tableBuilder.addRow(new TableRow<String>(avgLine));
+
+        tableBuilder.addRow(new TableRow<Double>(getAverages(sortComparisons)));
+
+
+        //collect(Collectors.groupingBy(sc -> sortComparisons.indexOf(sc)))
+
+        return tableBuilder.build();
+    }
+
+    public static List<Double> getAverages(List<List<Long>> sortComparisons) {
+
+        int numTests = sortComparisons.size();
+        int numSorters = sortComparisons.get(0).size();
+
+        ArrayList<Long>[] elements = new ArrayList[numSorters];
+        for(int i = 0; i < numTests; i++) {
+            for(int j = 0; j < numSorters; j++) {
+                if (elements[j] == null) elements[j] = new ArrayList<Long>();
+                elements[j].add(sortComparisons.get(i).get(j));
+            }
+        }
+
+        return Stream.of(elements).map(el -> el.stream().collect(Collectors.averagingLong(x -> x))).collect(Collectors.toUnmodifiableList());
+        
+    } 
+
+    public static List<List<Long>> repeatTestSorts(List<Sorter> sorters, ArrayGenerator<TestInteger> arrayGen, int repeat) {
+        return IntStream.range(0, repeat).mapToObj((i) -> testSorts(sorters, arrayGen.generateArray())).collect(Collectors.toUnmodifiableList());
+    }
+
+    public static List<Long> testSorts(List<Sorter> sorters, TestInteger[] arr) {
+        // for(Sorter s : sorters) {
+        //     TestInteger[] testArr = arr.clone();
+        //     testSortArray(s, testArr);
+        // }
+        return sorters.stream().map((s) -> testSortArray(s, arr.clone())).collect(Collectors.toUnmodifiableList());
+    }
+
+    public static long testSortArray(Sorter sorter, TestInteger[] arr) {
+        //System.out.println("Testing " + sorter.getClass().getSimpleName() + " with array of " + arr.length + " elements");
+        TestInteger.resetCounter();
+        sorter.sort(arr);
+        long compareCount = TestInteger.getCounter();
+        TestInteger.resetCounter();
+        if(!isSorted(arr)) 
+            System.err.println("Error: an array was not sorted when it should have been (" + sorter.getClass().getName() + ")");
+
+        //System.out.println("Array is " + (isSorted(arr) ? "sorted" : "not sorted") + ", Compare Count: " + compareCount);
+        return compareCount;
+    }
+
+    public static TestInteger[] getRandomTestIntArray(int min, int max, int size, Random rnd) {
+        // Streams are pretty neat
+        return rnd.ints(min, max).limit(size).mapToObj(TestInteger::new).toArray(TestInteger[]::new);
+    }
+
+    public static <T extends Comparable<T>> boolean isSorted(T[] data) {
         for (int i = 1; i < data.length; i++) {
             if (data[i - 1].compareTo(data[i]) > 0) {
                 return false;
