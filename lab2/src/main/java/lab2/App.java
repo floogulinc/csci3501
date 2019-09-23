@@ -154,12 +154,12 @@ public class App {
             }
         }
 
-        return Stream.of(elements).map(el -> el.stream().collect(Collectors.averagingLong(x -> x))).collect(Collectors.toUnmodifiableList());
+        return Stream.of(elements).map(el -> el.stream().collect(Collectors.averagingLong(x -> x))).collect(Collectors.toList());
         
     } 
 
     public static List<List<Long>> repeatTestSorts(List<Sorter> sorters, ArrayGenerator<TestInteger> arrayGen, int repeat) {
-        return IntStream.range(0, repeat).mapToObj((i) -> testSorts(sorters, arrayGen.generateArray())).collect(Collectors.toUnmodifiableList());
+        return IntStream.range(0, repeat).mapToObj((i) -> testSorts(sorters, arrayGen.generateArray())).collect(Collectors.toList());
     }
 
     public static List<Long> testSorts(List<Sorter> sorters, TestInteger[] arr) {
@@ -167,7 +167,7 @@ public class App {
         //     TestInteger[] testArr = arr.clone();
         //     testSortArray(s, testArr);
         // }
-        return sorters.stream().map((s) -> testSortArray(s, arr.clone())).collect(Collectors.toUnmodifiableList());
+        return sorters.stream().map((s) -> testSortArray(s, arr.clone())).collect(Collectors.toList());
     }
 
     public static long testSortArray(Sorter sorter, TestInteger[] arr) {
