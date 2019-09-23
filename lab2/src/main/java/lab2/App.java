@@ -9,31 +9,22 @@ import java.util.Collections;
 import java.util.DoubleSummaryStatistics;
 import java.util.IntSummaryStatistics;
 import java.util.List;
-import java.util.LongSummaryStatistics;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.LongStream;
 import java.util.stream.Stream;
-
-import com.google.common.base.Functions;
 
 import net.steppschuh.markdowngenerator.rule.HorizontalRule;
 import net.steppschuh.markdowngenerator.table.Table;
 import net.steppschuh.markdowngenerator.table.TableRow;
-import net.steppschuh.markdowngenerator.text.emphasis.BoldText;
 
 /**
- * CSCI 3501 Lab 2
+ * CSCI 3501 Lab 2 and 3
  *
  * @author Paul Friederichsen
  *
  */
 public class App {
-
-    public String getGreeting() {
-        return "Hello world.";
-    }
 
     public static class JavaTimSort implements Sorter {
         public <T extends Comparable<T>> void sort(T[] arr) {
@@ -185,7 +176,7 @@ public class App {
         sorter.sort(arr);
         long compareCount = TestInteger.getCounter();
         TestInteger.resetCounter();
-        if(!isSorted(arr)) 
+        if(!isSorted(arr)) // Error if an array is ever not sorted
             System.err.println("Error: an array was not sorted when it should have been (" + sorter.getClass().getName() + ")");
 
         //System.out.println("Array is " + (isSorted(arr) ? "sorted" : "not sorted") + ", Compare Count: " + compareCount);
