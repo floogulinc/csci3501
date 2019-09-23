@@ -83,7 +83,10 @@ public class App {
         // number of times to repeat each test for
         int numRepeat = 5; 
 
-        List<Sorter> sorters = List.of(new JavaTimSort(), new QuickSort(), new RandomizedQS(), new MedianQS(20), new InsertionQS(6));
+        // Requires Java 9+, but the labs use 8 so I switched to Arrays.asList
+        // List<Sorter> sorters = List.of(new JavaTimSort(), new QuickSort(), new RandomizedQS(), new MedianQS(20), new InsertionQS(6));
+        
+        List<Sorter> sorters = Arrays.asList(new JavaTimSort(), new QuickSort(), new RandomizedQS(), new MedianQS(20), new InsertionQS(6));
 
         System.out.println("#### Testing on 10,000 random ints 1-1,000,000:\n");
         List<List<Long>> allrandomresults = repeatTestSorts(sorters,() -> getRandomTestIntArray(1, 1000000, 10000, rand), numRepeat);
