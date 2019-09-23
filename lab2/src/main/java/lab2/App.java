@@ -70,26 +70,25 @@ public class App {
 
         List<Sorter> sorters = List.of(new JavaTimSort(), new QuickSort(), new RandomizedQS(), new MedianQS(20), new InsertionQS(6));
 
-        System.out.println("Testing on 10,000 random ints 1-1,000,000");
-        //List<Long> asdasd = testSorts(sorters, getRandomTestIntArray(1, 1000000, 10000, rand));
+        System.out.println("#### Testing on 10,000 random ints 1-1,000,000:\n");
         List<List<Long>> allrandomresults = repeatTestSorts(sorters,() -> getRandomTestIntArray(1, 1000000, 10000, rand), numRepeat);
         System.out.println(makeMarkdownTable(allrandomresults, sorters));
-        System.out.println(new HorizontalRule(30));
+        System.out.println("\n");
 
-        System.out.println("Testing on the range 1-10000");
+        System.out.println("#### Testing on the range 1-10000:\n");
         List<List<Long>> allrangeresults =  repeatTestSorts(sorters,() -> IntStream.rangeClosed(1, 10000).mapToObj(TestInteger::new).toArray(TestInteger[]::new), numRepeat);
         System.out.println(makeMarkdownTable(allrangeresults, sorters));
-        System.out.println(new HorizontalRule(30));
+        System.out.println("\n");
 
-        System.out.println("Testing on 10 sequences of ranges of 1000");
+        System.out.println("#### Testing on 10 sequences of ranges of 1000:\n");
         List<List<Long>> tenrangeresults =  repeatTestSorts(sorters,() -> rand.ints().limit(10).flatMap(r -> IntStream.range(r, r + 1000)).mapToObj(TestInteger::new).toArray(TestInteger[]::new), numRepeat);
         System.out.println(makeMarkdownTable(tenrangeresults, sorters));
-        System.out.println(new HorizontalRule(30));
+        System.out.println("\n");
 
-        System.out.println("Testing on 100 sequences of ranges 100");
+        System.out.println("#### Testing on 100 sequences of ranges 100:\n");
         List<List<Long>> hundredrangeresults =  repeatTestSorts(sorters,() -> rand.ints().limit(100).flatMap(r -> IntStream.range(r, r + 100)).mapToObj(TestInteger::new).toArray(TestInteger[]::new), numRepeat);
         System.out.println(makeMarkdownTable(hundredrangeresults, sorters));
-        System.out.println(new HorizontalRule(30));
+        System.out.println("\n");
     }
 
     public static int testMedian() {
