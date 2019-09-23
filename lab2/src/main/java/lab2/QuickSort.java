@@ -15,7 +15,7 @@ public class QuickSort implements Sorter {
      *
      * @param <T>
      *            - the type of elements in the array (must extend
-     *            Comparable<T>)
+     *            Comparable)
      * @param arr
      *            - the array to be sorted
      */
@@ -30,7 +30,7 @@ public class QuickSort implements Sorter {
      *
      * @param <T>
      *            - the type of elements in the array (must extend
-     *            Comparable<T>)
+     *            Comparable)
      * @param arr
      *            - the array to be sorted
      * @param begin

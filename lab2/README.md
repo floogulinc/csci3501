@@ -11,6 +11,11 @@ To compile and run the project, run:
 ./gradlew run
 ```
 
+To generate Javadocs, run:
+```
+./gradlew javadoc
+```
+
 ## Analysis
 
 Between TimSort and QuickSort, TimSort does fewer comparisons for all tests. The difference isn't too much for completely random data, with TimSort being about 20% better. For the tests on completely sorted or partially sorted data though, the difference is much greater. For a completely sorted array, TimSort does 5000 times fewer comparisons than QuickSort.
@@ -141,7 +146,7 @@ List<Sorter> sorters = List.of(new JavaTimSort(), new QuickSort(), new Randomize
 
 To optimize each of the last 2 types of sorters (median pivot and insertion sort for small arrays), I setup some tests against the random array sorting test where it sorts 10 random arrays for each value of k (threshold for using regular pivot or using insertion sort) 1 to 100 (any higher was definitely worse). It gets the average runtime of the 10 runs for each of the values of k and shows the average, best, and worst time with the actual k value for the min and max. I ran that entire test 100 times to find the average k value of the min times.
 
-### MedianQS Optimization:
+### MedianQS Optimization
 
 To run the test yourself (it will only run 10 times to save time, you can set the number of times in the code), run 
 ```
@@ -168,7 +173,7 @@ Count: 100
 
 Based on these results I left the setting for k as 20 for general tests.
 
-### InsertionQS sort quicksort optimization:
+### InsertionQS Optimization
 
 To run the test yourself (it will only run 10 times to save time, you can set the number of times in the code), run 
 ```
@@ -198,12 +203,6 @@ also testing is only against random arrays right now, not all the options...
 
 From Java `DualPivotQuicksort.class`:
 ```java
-/**
- * If the length of an array to be sorted is less than this
- * constant, Quicksort is used in preference to merge sort.
- */
-private static final int QUICKSORT_THRESHOLD = 286;
-
 /**
  * If the length of an array to be sorted is less than this
  * constant, insertion sort is used in preference to Quicksort.

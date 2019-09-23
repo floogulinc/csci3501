@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import net.steppschuh.markdowngenerator.rule.HorizontalRule;
 import net.steppschuh.markdowngenerator.table.Table;
 import net.steppschuh.markdowngenerator.table.TableRow;
 
@@ -26,16 +25,28 @@ import net.steppschuh.markdowngenerator.table.TableRow;
  */
 public class App {
 
+    /**
+     * Small class to implement {@link Sorter} with the built in TimSort from {@link java.util.Arrays}
+     */
     public static class JavaTimSort implements Sorter {
         public <T extends Comparable<T>> void sort(T[] arr) {
             Arrays.sort(arr);
         }
     }
 
+
+    /**
+     *  An array generator has a function that generates an array 
+     *  Used for lambdas
+     */
     public interface ArrayGenerator<T> {
         public T[] generateArray();
     }
 
+    /**
+     * The main method that is ran when the program starts
+     * @param args The arguments to the program (can be none)
+     */
     public static void main(String[] args) {
 
         if (args.length == 0) {
@@ -50,7 +61,7 @@ public class App {
             System.out.println("Max: " + summary.getMax()); 
             System.out.println("Count: " + summary.getCount()); 
         } else if (args[0].equals("testinsert")) {
-            int runs = 100;
+            int runs = 10;
             IntSummaryStatistics summary = IntStream.range(0, runs).mapToObj(x -> testInsert()).collect(Collectors.summarizingInt(x -> x));
             System.out.println("----------------------------------------");
             System.out.println("STATS FOR BEST INDEX FOR " + runs +  " RUNS:");
@@ -62,11 +73,15 @@ public class App {
 
     }
 
+    /**
+     * The default set of tests to run when the program is ran
+     */
     public static void regularTests() {
 
         Random rand = new Random();
 
-        int numRepeat = 5;
+        // number of times to repeat each test for
+        int numRepeat = 5; 
 
         List<Sorter> sorters = List.of(new JavaTimSort(), new QuickSort(), new RandomizedQS(), new MedianQS(20), new InsertionQS(6));
 
@@ -91,6 +106,10 @@ public class App {
         System.out.println("\n");
     }
 
+    /**
+     * Optimization for {@link MedianQS}
+     * @return The value used that resulted in the fewest comparisons
+     */
     public static int testMedian() {
         Random rand = new Random();
         int start = 1, end = 100;
@@ -102,10 +121,15 @@ public class App {
         System.out.println("Max: " + summary.getMax() + " at: " + (avg.indexOf(summary.getMax()) + start)); 
         System.out.println("Count: " + summary.getCount()); 
         return (avg.indexOf(summary.getMin()) + start);
-        // this is pretty unreadable
+
+        // full printout (this is pretty unreadable)
         //System.out.println(makeMarkdownTable(results, IntStream.rangeClosed(3, 100).mapToObj(x -> new MedianQS(x)).collect(Collectors.toList())));
     }
 
+    /**
+     * Optimization for {@link InsertionQS}
+     * @return The value used that resulted in the fewest comparisons
+     */
     public static int testInsert() {
         Random rand = new Random();
         int start = 1, end = 100;
@@ -117,10 +141,17 @@ public class App {
         System.out.println("Max: " + summary.getMax() + " at: " + (avg.indexOf(summary.getMax()) + start)); 
         System.out.println("Count: " + summary.getCount()); 
         return (avg.indexOf(summary.getMin()) + start);
-        // this is pretty unreadable
+
+        // full printout (this is pretty unreadable)
         //System.out.println(makeMarkdownTable(results, IntStream.rangeClosed(3, 100).mapToObj(x -> new MedianQS(x)).collect(Collectors.toList())));
     }
 
+    /**
+     * Creates a markdown table from the results of {@link #repeatTestSorts}
+     * @param sortComparisons The list of lists of sorting test results from {@link repeatTestSorts}
+     * @param sorters List of {@link Sorter} instances that were used, for the table headers
+     * @return The markdown table of number of comparisons for each run of each sorter and averages for each sorter
+     */
     public static Table makeMarkdownTable(List<List<Long>> sortComparisons, List<Sorter> sorters) {
         Table.Builder tableBuilder = new Table.Builder().addRow(new TableRow<String>(sorters.stream().map((s) -> s.getClass().getSimpleName()).collect(Collectors.toList())));
 
@@ -134,12 +165,14 @@ public class App {
 
         tableBuilder.addRow(new TableRow<Double>(getAverages(sortComparisons)));
 
-
-        //collect(Collectors.groupingBy(sc -> sortComparisons.indexOf(sc)))
-
         return tableBuilder.build();
     }
 
+    /**
+     * Generate averages for each type of sorter
+     * @param sortComparisons  The list of lists of sorting test results from {@link repeatTestSorts}
+     * @return A list of averages for each type of sorter
+     */
     public static List<Double> getAverages(List<List<Long>> sortComparisons) {
 
         int numTests = sortComparisons.size();
@@ -157,10 +190,23 @@ public class App {
         
     } 
 
+    /**
+     * Repeat {@link #testSorts} a given number of times with arrays generated by the given generator
+     * @param sorters The list of {@link Sorter} instances to use for each sorting run
+     * @param arrayGen The {@link ArrayGenerator} to use to generate new arrays to test with
+     * @param repeat How many times to repeat the {@link #testSorts} process 
+     * @return A list of the lists of number of comparisons from {@link #testSorts}
+     */
     public static List<List<Long>> repeatTestSorts(List<Sorter> sorters, ArrayGenerator<TestInteger> arrayGen, int repeat) {
         return IntStream.range(0, repeat).mapToObj((i) -> testSorts(sorters, arrayGen.generateArray())).collect(Collectors.toList());
     }
 
+    /**
+     * Tests multiple sorters on the same array using {@link #testSortArray}
+     * @param sorters The list of {@link Sorter} instances to use
+     * @param arr The array to sort with each of the given sorters
+     * @return A list of the number of comparisons for each of the sorters given in the same order
+     */
     public static List<Long> testSorts(List<Sorter> sorters, TestInteger[] arr) {
         // for(Sorter s : sorters) {
         //     TestInteger[] testArr = arr.clone();
@@ -169,6 +215,12 @@ public class App {
         return sorters.stream().map((s) -> testSortArray(s, arr.clone())).collect(Collectors.toList());
     }
 
+    /**
+     * Runs a sorter on the given array and returns the number of compares from TestInteger
+     * @param sorter The sorter class to use
+     * @param arr The array to sort
+     * @return The number of compares that took place during the sorting
+     */
     public static long testSortArray(Sorter sorter, TestInteger[] arr) {
         //System.out.println("Testing " + sorter.getClass().getSimpleName() + " with array of " + arr.length + " elements");
         TestInteger.resetCounter();
@@ -182,14 +234,28 @@ public class App {
         return compareCount;
     }
 
+    /**
+     * Creates an array of random {@link TestInteger} objects
+     * @param min The lowest possible value to generate
+     * @param max The largest possible value to generate
+     * @param size The size of the array to produce
+     * @param rnd Instance of {@link java.util.Random}
+     * @return An array of random TestIntegers
+     */
     public static TestInteger[] getRandomTestIntArray(int min, int max, int size, Random rnd) {
         // Streams are pretty neat
         return rnd.ints(min, max).limit(size).mapToObj(TestInteger::new).toArray(TestInteger[]::new);
     }
 
-    public static <T extends Comparable<T>> boolean isSorted(T[] data) {
-        for (int i = 1; i < data.length; i++) {
-            if (data[i - 1].compareTo(data[i]) > 0) {
+    /**
+     * Checks whether the given array is sorted
+     * @param <T> the class of the objects in the array, must implement {@link Comparable}
+     * @param arr The array to check
+     * @return {@code true} if the given array is sorted
+     */
+    public static <T extends Comparable<T>> boolean isSorted(T[] arr) {
+        for (int i = 1; i < arr.length; i++) {
+            if (arr[i - 1].compareTo(arr[i]) > 0) {
                 return false;
             }
         }
