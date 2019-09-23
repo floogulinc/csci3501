@@ -53,9 +53,7 @@ public class InsertionQS implements Sorter {
      */
     private <T extends Comparable<T>> void quicksort(T[] arr, int begin, int end) {
         if (begin > end) return;
-        if(end-begin <= k) {
-            return;
-        } 
+        if(end-begin <= k) return;
         int q = partition(arr, begin, end);
         quicksort(arr, begin, q - 1);
         quicksort(arr, q + 1, end);

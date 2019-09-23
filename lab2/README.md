@@ -4,7 +4,7 @@
 
 ## Running
 
-The source files are in `src/main/java/lab2/`
+The source files are in `src/main/java/lab2`
 
 To compile and run the project, run:
 ```
@@ -15,11 +15,19 @@ To generate Javadocs, run:
 ```
 ./gradlew javadoc
 ```
+That will put them in `build/docs/javadoc`
 
 ## Analysis
 
 Between TimSort and QuickSort, TimSort does fewer comparisons for all tests. The difference isn't too much for completely random data, with TimSort being about 20% better. For the tests on completely sorted or partially sorted data though, the difference is much greater. For a completely sorted array, TimSort does 5000 times fewer comparisons than QuickSort.
 
+QuickSort with random pivots seems to have slightly better comparison performance to regular QuickSort for completely random data. For fully and partially pre-sorted data though, it performs much better than regular QuickSort. It still does more comparisons than TimSort in all the tested cases.
+
+QuickSort with pivots chosen by the median of three random items in the array (until there are few enough items in the sub-array, 20 in this case) performs notably better than regular QuickSort and RandomizedQS for random values. For the other tests of partially or completely sorted data, it performs worse than RandomizedQS and TimSort but still better than QuickSort.
+
+QuickSort that uses insertion sort when it gets to small enough sub-arrays performs worse than all other algorithms in completely random integers. The same applies to partially and completely pre-sorted arrays.
+
+## Run Data
 
 Some normal runs using these sorters:
 

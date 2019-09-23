@@ -21,7 +21,6 @@ import net.steppschuh.markdowngenerator.table.TableRow;
  * CSCI 3501 Lab 2 and 3
  *
  * @author Paul Friederichsen
- *
  */
 public class App {
 
@@ -40,6 +39,10 @@ public class App {
      *  Used for lambdas
      */
     public interface ArrayGenerator<T> {
+        /**
+         * Generates an array
+         * @return the generated array of items of type T
+         */
         public T[] generateArray();
     }
 
