@@ -17,7 +17,7 @@ To generate Javadocs, run:
 ```
 That will put them in `build/docs/javadoc`
 
-It is also hosted [here](https://floogulinc.com/csci3501/lab2/javadoc/lab2/).
+It is also hosted [here](https://floogulinc.com/csci3501/lab2/javadoc/).
 
 ## Analysis
 
