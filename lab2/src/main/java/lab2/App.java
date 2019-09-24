@@ -53,7 +53,7 @@ public class App {
     public static void main(String[] args) {
 
         if (args.length == 0) {
-            regularTests();
+            regularTests(); // Run the regular tests if no arguments
         } else if (args[0].equals("testmedian")) {
             int runs = 10;
             IntSummaryStatistics summary = IntStream.range(0, runs).mapToObj(x -> testMedian()).collect(Collectors.summarizingInt(x -> x));

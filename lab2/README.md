@@ -19,13 +19,35 @@ That will put them in `build/docs/javadoc`
 
 ## Analysis
 
+### QuickSort
+
 Between TimSort and QuickSort, TimSort does fewer comparisons for all tests. The difference isn't too much for completely random data, with TimSort being about 20% better. For the tests on completely sorted or partially sorted data though, the difference is much greater. For a completely sorted array, TimSort does 5000 times fewer comparisons than QuickSort.
 
-QuickSort with random pivots seems to have slightly better comparison performance to regular QuickSort for completely random data. For fully and partially pre-sorted data though, it performs much better than regular QuickSort. It still does more comparisons than TimSort in all the tested cases.
+### RandomizedQS
+
+QuickSort with random pivots seems to have slightly better comparison performance to regular QuickSort on average for completely random data. For fully and partially pre-sorted data though, it performs much better than regular QuickSort. It still does more comparisons than TimSort in all the tested cases.
+
+The greatly increased performance in pre-sorted arrays is due to how regular QuickSort has to swap every element all the way along the array for every element and the random pivot prevents this.
+
+### MedianQS
 
 QuickSort with pivots chosen by the median of three random items in the array (until there are few enough items in the sub-array, 20 in this case) performs notably better than regular QuickSort and RandomizedQS for random values. For the other tests of partially or completely sorted data, it performs worse than RandomizedQS and TimSort but still better than QuickSort.
 
+MedianQS achieves better performance in random items than RandomizedQS because taking the median of three random array items means most of the time the pivot is closer to a optimal split.
+
+The reason for decent performance in sorted data is similar to RandomizedQS.
+
+### InsertionQS
+
 QuickSort that uses insertion sort when it gets to small enough sub-arrays performs worse than all other algorithms in completely random integers. The same applies to partially and completely pre-sorted arrays.
+
+This bad performance is due to the fact that, even with the best performing threshold of 6, it still is going through the entire partially-sorted array with insertion sort instead of just portions of it, which is fairly inefficient to traverse.
+
+While my implementation followed the instructions of the lab:
+
+> **Switching to insertion sort at the end:** when the array is nearly sorted, stop the quicksort without finishing the sorting, and then use insertion sort on the entire array to finish the process. 
+
+There are other ways to use insertion sort in quicksort that are probably better. Namely, using insertion sort to sort each subarray when it's small enough instead of returning out and using it to sort the entire array. 
 
 ## Run Data
 
