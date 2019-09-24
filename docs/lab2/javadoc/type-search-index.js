@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"lab2","l":"App"},{"p":"lab2","l":"App.ArrayGenerator"},{"p":"lab2","l":"InsertionQS"},{"p":"lab2","l":"App.JavaTimSort"},{"p":"lab2","l":"MedianQS"},{"p":"lab2","l":"QuickSort"},{"p":"lab2","l":"RandomizedQS"},{"p":"lab2","l":"Sorter"},{"p":"lab2","l":"TestInteger"}]
