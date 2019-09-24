@@ -222,16 +222,9 @@ Count: 100
 
 Based on these results I set k to 6 for general tests.
 
+This is interesting when compared to the threshold used in Java's built in quicksort.
 
-because we resort whole array once finding that it is below threshold, we could use insertion on the parts ot the arrays left unsorted instead maybe.
-
-also testing is only against random arrays right now, not all the options...
-
-
-
-
-
-From Java `DualPivotQuicksort.class`:
+From the JDK 11 `DualPivotQuicksort.class`:
 ```java
 /**
  * If the length of an array to be sorted is less than this
