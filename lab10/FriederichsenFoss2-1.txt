@@ -1,0 +1,18 @@
+The conversion creates a few initial transitions and states
+It first pops Z (the default end of stack symbol) and pushes S and Z back in (S represents the first starting variable).
+Then, at the end it looks for the end of stack which symbolizes that the start variable was consumed, 
+turned into terminals eventually, that were all matched with input symbols.
+
+The rules added in the conversion process:
+
+(takes a 1 or 0 input and pops it off the stack, which means it was the next symbol in the string produced by the CFG)
+1, 1 -> λ
+0, 0 -> λ
+
+(essentially builds strings with the CFG in the stack, going from the start variable to a series of terminals)
+λ, S -> 0S0
+λ, S -> 1S1
+
+λ, S -> 0
+λ, S -> 1
+λ, S -> λ
