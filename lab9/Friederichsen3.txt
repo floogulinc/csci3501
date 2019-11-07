@@ -1,3 +1,4 @@
-The first language tested does not satisfy the pumping lemma, the string "aaaaaabbbb" will break the pumping lemma when i=0. 
+The first language tested does not satisfy the pumping lemma, 
+I tested the string "aaaaaabbbb" and it breaks the pumping lemma when i=0. 
 I tested this with pumping lengths choosed by the computer of 4 and 8
 The language is not regular since it does not satisfy the pumping lemma

@@ -1,0 +1,7 @@
+The second language does satisfy the pumping lemma with length m ≥ 3.
+I tested with m = 3 and m = 4.
+It can be pumped up when y two or more a's or two or more b's.
+This language seems to be regular. 
+It makes sense because you can build a DFA/regex for it, 
+here is a regex converted from a DFA I made for the language:
+(aa)*(a+abb(bb)*)
