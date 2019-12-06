@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!--Created with JFLAP 7.1.--><structure>&#13;
+	<type>context-free pumping lemma</type>&#13;
+	<name>a^n b^j a^n b^j : n &gt;= 0, j &gt;= 0</name>&#13;
+	<first_player>Computer</first_player>&#13;
+	<m>5</m>&#13;
+	<w>aaaaabbbbbaaaaabbbbb</w>&#13;
+	<i>2</i>&#13;
+	<uLength>0</uLength>&#13;
+	<vLength>1</vLength>&#13;
+	<xLength>3</xLength>&#13;
+	<yLength>1</yLength>&#13;
+	<attempt>U = λ;   V = a;   X = aaa;   Y = a;   Z = bbbbbaaaaabbbbb; I = 0; &lt;i&gt;Won&lt;/i&gt;</attempt>&#13;
+	<attempt>U = λ;   V = a;   X = aaa;   Y = a;   Z = bbbbbaaaaabbbbb; I = 2; &lt;i&gt;Won&lt;/i&gt;</attempt>&#13;
+</structure>

@@ -1,0 +1,4 @@
+We found that the second example (the eighth language in the list) is context-free. 
+We used a m value of 4 and the computer selected the word "aaaabbbbccccddddd".
+We found a decomposition that sets v to only b and y to only c and the remaining non-pumped b's and c's are equal (3). 
+This means that we will pump both b's and c's equally so the number of them will always be equal and the order won't change, satisfying the language definition.

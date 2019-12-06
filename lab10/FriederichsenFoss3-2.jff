@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!--Created with JFLAP 7.1.--><structure>&#13;
+	<type>context-free pumping lemma</type>&#13;
+	<name>a^k b^n c^n d^j : j != k</name>&#13;
+	<first_player>Human</first_player>&#13;
+	<m>4</m>&#13;
+	<w>aaaabbbbccccddddd</w>&#13;
+	<i>0</i>&#13;
+	<uLength>7</uLength>&#13;
+	<vLength>1</vLength>&#13;
+	<xLength>1</xLength>&#13;
+	<yLength>1</yLength>&#13;
+	<attempt>U = aaaa;   V = ab;   X = b;   Y = λ;   Z = bbbcccccdddddd; I = 2; &lt;i&gt;Failed&lt;/i&gt;</attempt>&#13;
+	<attempt>U = aaaa;   V = ab;   X = b;   Y = λ;   Z = bbbcccccdddddd; I = 2; &lt;i&gt;Failed&lt;/i&gt;</attempt>&#13;
+	<attempt>U = aaaa;   V = ab;   X = b;   Y = λ;   Z = bbbcccccdddddd; I = 2; &lt;i&gt;Failed&lt;/i&gt;</attempt>&#13;
+	<attempt>U = aaaabbb;   V = b;   X = c;   Y = c;   Z = ccddddd; I = 0; &lt;i&gt;Won&lt;/i&gt;</attempt>&#13;
+	<case>&#13;
+		<caseULength>7</caseULength>&#13;
+		<caseVLength>1</caseVLength>&#13;
+		<caseXLength>1</caseXLength>&#13;
+		<caseYLength>1</caseYLength>&#13;
+		<caseI>0</caseI>&#13;
+	</case>&#13;
+</structure>

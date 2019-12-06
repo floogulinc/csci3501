@@ -1,0 +1,10 @@
+The first example (the third languaeg in the list) is not context-free. 
+The computer choose 5 for m and our traitor word a^m b^m a^m b^m.
+We chose this word boserving that while n>= 0 and j>=0, it is possible for n=j. This mirrors the examples given in the homework (and class).
+Already knowing that those examples were NOT context-free, we were able to prove this easily.
+
+Basically, VXY will NEVER span across more than two blocks of a's and b's.
+
+Therefore, when pumping V and Y, this produces a block of a's of UNEQUAL length to the other block of a's (same with the blocks of b's).
+The other case is that, V and/or Y encompasses both a's and b's, and pumping that violates the pattern of abab (loosely described).
+
